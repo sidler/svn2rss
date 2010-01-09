@@ -21,11 +21,18 @@
  */
 
 /**
- * Description of SvnLogManager
+ * Wrapper class for exceptions thrown by svn2rss
  *
- * @author sidler
+ * @author Stefan Idler, sidler@mulchprod.de
  */
-class SvnLogManager {
-    //put your code here
+class Svn2RssException extends Exception {
+    
+    /**
+     * Creates a new exception with the error specified
+     * @param string $strError
+     */
+    public function __construct($strError) {
+        parent::__construct($strError);
+    }
 }
 ?>

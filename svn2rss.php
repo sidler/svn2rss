@@ -21,23 +21,50 @@
  */
 
 
+
+/**
+ * PLEASE NOTE:
+ * All configuration can be made in svn2rss.xml.
+ * There is no need to change anything in this file.
+ */
+
+
+
+
+
+
+
 //set up base-constants
 define("SVN2RSS_PROJECT_ROOT",  dirname(__FILE__));
-define("SVN2RSS_CONFIG_NAME",   "svn2rss.xml");
-
-
 
 
 /**
- * Autloader. Handles the loading of class-definitions not known to the compiler.
+ * Autoloader. Handles the loading of class-definitions not known to the compiler.
  * Called by PHP, so no need to call on your own
  * @param string $strClassName
  * @return void
  */
 function __autoload($strClassName) {
     
-    if(require(PROJECT_ROOT."/svn2rss/".$strClassName.".php"))
+    if(require(SVN2RSS_PROJECT_ROOT."/svn2rss/".$strClassName.".php"))
         return;
 }
+
+
+//start rss2svn and invoke the request-processing
+$strFeedParam = isset($_GET["feed"]) ? $_GET["feed"] : "";
+$objSvn2Rss = new Svn2Rss();
+$objSvn2Rss->processSvn2RssRequest($strFeedParam);
+
+//set up response to browser
+//header("Content-Type: text/xml; charset=utf-8");
+
+$strReturnCode = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+$strReturnCode .= $objSvn2Rss->getStrOutput();
+echo nl2br(htmlentities($strReturnCode));
+//echo $strReturnCode;
+
+
+
 
 ?>

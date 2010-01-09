@@ -56,7 +56,7 @@
                  that the feed is not up to date until the interval exceeds. -->
             <refreshInterval>500</refreshInterval>
         </configSet>
-        
+
     </configSets>
 
 </config>

@@ -20,8 +20,99 @@
  *
  */
 
-
+/**
+ * This class handles all svn-related stuff such as connecting to the svn-server, fetching the logs, ....
+ * In addition, it implements a caching in order to avoid uneccessary network-requests
+ *
+ * @author Stefan Idler, sidler@mulchprod.de
+ */
 class SvnReader {
-    //put your code here
+    
+    /**
+     *
+     * @var ConfigReader
+     */
+    private $objConfig;
+
+    public function __construct(ConfigReader $objConfig) {
+        $this->objConfig = $objConfig;
+    }
+
+    public function getSvnLogContent() {
+       $strLogContent = false;
+       
+       //anything to load via the cache?
+       if($this->objConfig->getBitCachingEnabled()) {
+           $strLogContent = $this->getContentFromCache();
+       }
+
+       if($strLogContent === false) {
+           //load the logfile via a system-call
+           $strLogContent = $this->loadLoghistoryViaSvn();
+       }
+
+       //write back to the cache
+       if($this->objConfig->getBitCachingEnabled()) {
+           $this->setContentToCache($strLogContent);
+       }
+
+       return $strLogContent;
+    }
+
+    
+    private function loadLoghistoryViaSvn() {
+        $intExitCode = 0;
+        $arrSvnLogLines = array();
+
+        //build the command
+        $arrCommand = array();
+        $arrCommand[] = escapeshellcmd($this->objConfig->getStrSvnBinaryPath());
+        $arrCommand[] = "log -v --xml --no-auth-cache";
+        $arrCommand[] = escapeshellarg($this->objConfig->getStrSvnUrl());
+        $arrCommand[] = " -l ".escapeshellarg($this->objConfig->getIntLogAmount());
+        
+        if($this->objConfig->getStrSvnUsername() != "" )
+            $arrCommand[] = "--username ".escapeshellarg($this->objConfig->getStrSvnUsername());
+
+        if($this->objConfig->getStrSvnPassword() != "" )
+            $arrCommand[] = "--password ".escapeshellarg($this->objConfig->getStrSvnPassword());
+
+
+        exec(implode(" ", $arrCommand), $arrSvnLogLines, $intExitCode);
+
+
+        if($intExitCode == 0) {
+            return implode("\n", $arrSvnLogLines);
+        }
+
+        throw new Svn2RssException("Error loading svn-log content, exit code: ".$intExitCode);
+    }
+
+    /**
+     * Tries to load the logfile from a cached request.
+     *
+     * @return string cachecontent, false if cache is invalid or no cached log was found
+     */
+    private function getContentFromCache() {
+        //TODO
+        return false;
+    }
+
+    /**
+     * Saves the passed string to a cache-file
+     *
+     * @param string $strContent
+     * @return boolean
+     */
+    private function setContentToCache($strContent) {
+        //TODO
+        return false;
+    }
+
+
+    private function generateCachename() {
+        return md5($this->objConfig->getStrSvnUrl().$this->objConfig->getStrConfigSetName());
+    }
+
 }
 ?>

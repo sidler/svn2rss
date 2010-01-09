@@ -23,9 +23,18 @@
 /**
  * Description of RssManager
  *
- * @author sidler
+ * @author Stefan Idler, sidler@mulchprod.de
  */
 class RssManager {
-    //put your code here
+
+    /**
+     * Generates a rss-node-structure from the passed log-node-structure
+     * @param SimpleXMLElement $objLogRootNode
+     * @return SimpleXMLElement
+     */
+    public function generateRssFromLogContent($objLogRootNode) {
+
+        return $objRssNodeList;
+    }
 }
 ?>

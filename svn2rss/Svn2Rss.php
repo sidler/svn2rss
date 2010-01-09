@@ -21,11 +21,40 @@
  */
 
 /**
- * Description of Svn2Rss
+ * The global manager, handles the processing of a single request.
  *
- * @author sidler
+ * @author Stefan Idler, sidler@mulchprod.de
  */
 class Svn2Rss {
-    //put your code here
+
+    private $strOutput = "";
+
+    /**
+     * Starts the processing of the current request.
+     * Acts like some kind of a main-method, so manages the further control-flow.
+     */
+    public function processSvn2RssRequest($strFeedParam = "") {
+
+        try {
+            //start by loading the config-file
+            $objConfig = new ConfigReader($strFeedParam);
+
+            //create the svn-reader and pass control
+            $objSvnReader = new SvnReader($objConfig);
+            $strSvnLog = $objSvnReader->getSvnLogContent();
+            $this->strOutput .= $strSvnLog;
+
+        }
+        catch (Svn2RssException $objException) {
+            $this->strOutput = "<error><![CDATA[Something bad happened: \n".$objException->getMessage()."]]></error>";
+        }
+    }
+
+
+    public function getStrOutput() {
+        return $this->strOutput;
+    }
+
+
 }
 ?>
