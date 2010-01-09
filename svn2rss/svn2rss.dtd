@@ -23,7 +23,7 @@
 
 
 <!ELEMENT configSets (configSet)+>
-<!ELEMENT configSet (svnUrl, svnUsername, svnPassword, logAmount, refreshInterval)>
+<!ELEMENT configSet (svnUrl, svnUsername, svnPassword, logAmount, refreshInterval, feedTitle, feedDescription)>
 <!ATTLIST configSet
     id ID #REQUIRED
 >
@@ -33,3 +33,5 @@
 <!ELEMENT svnPassword (#PCDATA)>
 <!ELEMENT logAmount (#PCDATA)>
 <!ELEMENT refreshInterval (#PCDATA)>
+<!ELEMENT feedTitle (#PCDATA)>
+<!ELEMENT feedDescription (#PCDATA)>

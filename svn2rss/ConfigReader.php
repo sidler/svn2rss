@@ -49,6 +49,7 @@ class ConfigReader {
         libxml_use_internal_errors();
         $this->objSimpleXml = simplexml_load_file(SVN2RSS_PROJECT_ROOT."/".$this->strConfigFile);
         $arrParseErrors = libxml_get_errors();
+        libxml_clear_errors();
 
         if(count($arrParseErrors) > 0)
             throw new Svn2RssException("Error parsing xml-config-file ".$this->strConfigFile.".\nErrors:\n".implode("\n", $arrParseErrors));

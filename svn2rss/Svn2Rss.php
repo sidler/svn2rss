@@ -42,7 +42,14 @@ class Svn2Rss {
             //create the svn-reader and pass control
             $objSvnReader = new SvnReader($objConfig);
             $strSvnLog = $objSvnReader->getSvnLogContent();
-            $this->strOutput .= $strSvnLog;
+            //$this->strOutput .= $strSvnLog;
+            
+            //create rss-nodes out of the logfile
+            $objRssConverter = new Log2RssConverter($objConfig);
+            $arrRssItemNodes = $objRssConverter->generateRssNodesFromLogContent($strSvnLog);
+
+            
+            
 
         }
         catch (Svn2RssException $objException) {
