@@ -1,13 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!DOCTYPE config SYSTEM "./svn2rss/svn2rss.dtd">
 <!--
-    Document   : svn2rss.xml
-    Created on : January 8, 2010, 9:27 PM
-    Author     : sidler
-    Description:
-        Purpose of the document follows.
+    This file is part of svn2rss.
+    (c) Stefan Idler, MulchProductions, sidler@mulchprod.de, http://www.mulchprod.de
 -->
 
-<config>
+
+
+
+<!--
+    This is the global config-file for svn2rss.
+    Use this file to set up your configuration.
+-->
+<config version="1.0">
+
+    <globalConfig>
+        <!-- The path to the svn-binary. On most systems, svn is registered to the PATH variable,
+             so you don't have to change this value.  -->
+        <svnBinaryPath>svn</svnBinaryPath>
+
+        <!-- Enable or disable caching of retrieved svn-logfiles.
+             In most cases, leaving it to true is the best option. -->
+        <cachingEnabled>true</cachingEnabled>
+
+        <!-- The id of the default config-set. If no feed-param was given, the set referenced
+             by this value is being loaded -->
+        <defaultConfigSet>kajona</defaultConfigSet>
+
+    </globalConfig>
+
+
+    <!-- You can define a list of config sets, each containing a singe svn2rss configuration.
+         To switch between the single sets, use the url-parameter "feed=name" when querying the
+         svn2rss.php -->
+    <configSets>
+
+        <!-- Each config-set contains the properties for a single svn2rss configuration.
+             Use the attribute id in order to identify the single config lateron. -->
+        <configSet id="kajona">
+
+            <!-- This is the URL to the svn-repository to be scanned -->
+            <svnUrl>https://svn.kajona.de/svn/kajona/kajona/module_head/trunk</svnUrl>
+
+            <!-- This is the username to be used for svn, leave emtpy for anonymous access -->
+            <svnUsername>guest</svnUsername>
+
+            <!-- This is the password to be used for svn, leave emtpy for anonymous access -->
+            <svnPassword>guest</svnPassword>
+
+            <!-- This is the number of latest entries to be shown in the rss-feed. -->
+            <logAmount>25</logAmount>
+
+            <!-- This is the interval in second the feed will be regenerated. By setting a higer
+                 value, it reduces the network-traffic and speeds up generation but it could happen
+                 that the feed is not up to date until the interval exceeds. -->
+            <refreshInterval>500</refreshInterval>
+        </configSet>
+        
+    </configSets>
 
 </config>
