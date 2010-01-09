@@ -57,12 +57,12 @@ $objSvn2Rss = new Svn2Rss();
 $objSvn2Rss->processSvn2RssRequest($strFeedParam);
 
 //set up response to browser
-//header("Content-Type: text/xml; charset=utf-8");
+header("Content-Type: text/xml; charset=utf-8");
 
-$strReturnCode = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-$strReturnCode .= $objSvn2Rss->getStrOutput();
-echo nl2br(htmlentities($strReturnCode));
-//echo $strReturnCode;
+//$strReturnCode = "<?xml version=\"1.0\" encoding=\"UTF-8\">\n";
+$strReturnCode = $objSvn2Rss->getStrOutput();
+//echo htmlentities($strReturnCode));
+echo $strReturnCode;
 
 
 

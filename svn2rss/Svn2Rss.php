@@ -46,14 +46,26 @@ class Svn2Rss {
             
             //create rss-nodes out of the logfile
             $objRssConverter = new Log2RssConverter($objConfig);
-            $arrRssItemNodes = $objRssConverter->generateRssNodesFromLogContent($strSvnLog);
+            $objRssRootNode = $objRssConverter->generateRssNodesFromLogContent($strSvnLog);
 
-            
-            
+            $this->strOutput = $objRssRootNode->asXML();
 
         }
         catch (Svn2RssException $objException) {
-            $this->strOutput = "<error><![CDATA[Something bad happened: \n".$objException->getMessage()."]]></error>";
+
+            $objFeedRootNode = new SimpleXMLElement("<rss version=\"2.0\"></rss>");
+            $objChannel = $objFeedRootNode->addChild("channel");
+            $objChannel->addChild("title", "Error");
+            $objChannel->addChild("description", "Error while loading feed");
+            $objChannel->addChild("link", "n.a.");
+            $objChannel->addChild("pubDate", strftime("%a, %d %b %Y %H:%m:00 GMT", time()));
+
+            $objRssItemNode = $objChannel->addChild("item");
+            $objRssItemNode->addChild("title","Something bad happened: \n".$objException->getMessage()."");
+            $objRssItemNode->addChild("description","Something bad happened: \n".$objException->getMessage()."");
+            $objRssItemNode->addChild("pubDate",strftime("%a, %d %b %Y %H:%m:00 GMT", time()));
+
+            $this->strOutput = $objFeedRootNode->asXML();
         }
     }
 

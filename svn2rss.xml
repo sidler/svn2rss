@@ -55,6 +55,12 @@
                  value, it reduces the network-traffic and speeds up generation but it could happen
                  that the feed is not up to date until the interval exceeds. -->
             <refreshInterval>500</refreshInterval>
+
+            <!-- The title to be used by the generated feed -->
+            <feedTitle>Kajona SVN History</feedTitle>
+
+            <!-- The description of the generated feed -->
+            <feedDescription>Browse the SVN-history of Kajona, a free content management framework (http://www.kajona.de)</feedDescription>
         </configSet>
 
     </configSets>

@@ -22,7 +22,6 @@
 
 /**
  * The Log2RssConverter-Manager creates a rss-node structure out of the passed svn-node structure.
- * Please note, that only the list of items is being generated, not the wrapping RSS-structure
  *
  * @author Stefan Idler, sidler@mulchprod.de
  */
@@ -41,13 +40,18 @@ class Log2RssConverter {
     /**
      * Generates a rss-node-structure from the passed log-node-structure
      * @param string $objLogRootNode
-     * @return array an array of SimpleXMLElements
+     * @return SimpleXMLElement
      */
     public function generateRssNodesFromLogContent($strLogRootNode) {
-        $arrRssNodeList = array();
 
 
-        $objRssRootNode = new SimpleXMLElement("<items></items>");
+        $objFeedRootNode = new SimpleXMLElement("<rss version=\"2.0\"></rss>");
+        $objChannel = $objFeedRootNode->addChild("channel");
+        $objChannel->addChild("title", $this->objConfig->getStrFeedTitle());
+        $objChannel->addChild("description", $this->objConfig->getStrFeedDescription());
+        $objChannel->addChild("link", $this->objConfig->getStrSvnUrl());
+        $objChannel->addChild("pubDate", strftime("%a, %d %b %Y %H:%m:00 GMT", time()));
+
 
         //build a xml-tree out of the passed svn-log-content
         libxml_use_internal_errors();
@@ -61,19 +65,17 @@ class Log2RssConverter {
         foreach($objSimpleXmlElement->logentry as $objOneLogEntry) {
 
             $arrObjAttributes = $objOneLogEntry->attributes();
-
-            $objRssItemNode = $objRssRootNode->addChild("item");
+            $objRssItemNode = $objChannel->addChild("item");
 
             //title, description, logdate
             $objRssItemNode->addChild("title", $arrObjAttributes->revision->__toString()." by ".$objOneLogEntry->author->__toString());
             $objRssItemNode->addChild("description", $objOneLogEntry->msg->__toString());
             $objRssItemNode->addChild("pubDate", $objOneLogEntry->date->__toString());
             
-            $arrRssNodeList[] = $objRssItemNode;
         }
 
+        return $objFeedRootNode;
 
-        return $arrRssNodeList;
     }
 
 

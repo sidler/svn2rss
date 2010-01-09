@@ -109,6 +109,14 @@ class ConfigReader {
         return (int)$this->objCurrentConfigSetXml->refreshInterval->__toString();
     }
 
+    public function getStrFeedTitle() {
+        return $this->objCurrentConfigSetXml->feedTitle->__toString();
+    }
+
+    public function getStrFeedDescription() {
+        return $this->objCurrentConfigSetXml->feedDescription->__toString();
+    }
+
     public function getStrConfigSetName() {
         return $this->strConfigSetName;
     }
