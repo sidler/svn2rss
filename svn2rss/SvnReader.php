@@ -61,8 +61,8 @@ class SvnReader {
 
     
     private function loadLoghistoryViaSvn() {
-        $intExitCode = 0;
-        $arrSvnLogLines = array();
+        $strSvnLogLines = "";
+        $strErrors = "";
 
         //build the command
         $arrCommand = array();
@@ -78,14 +78,43 @@ class SvnReader {
             $arrCommand[] = "--password ".escapeshellarg($this->objConfig->getStrSvnPassword());
 
 
-        exec(implode(" ", $arrCommand), $arrSvnLogLines, $intExitCode);
+        //create a new process
+        $arrProcessDescSpec = array(
+               0 => array("pipe", "r"),  // stdin
+               1 => array("pipe", "w"),  // stdout
+               2 => array("pipe", "w")   // stderr
+        );
 
+        $arrPipes = array();
 
-        if($intExitCode == 0) {
-            return implode("\n", $arrSvnLogLines);
+        $objProcess = proc_open(implode(" ", $arrCommand), $arrProcessDescSpec, $arrPipes);
+
+        if(is_resource($objProcess)) {
+            //accept certificate temporarily
+            fwrite($arrPipes[0], "t\r\n");
+
+            //read logfile
+            while(!feof($arrPipes[1]))
+                $strSvnLogLines .= fread($arrPipes[1], 4096);
+
+            //read errors
+            while(!feof($arrPipes[2]))
+                $strErrors .= fread($arrPipes[2], 4096);
+
+            fclose($arrPipes[0]);
+            fclose($arrPipes[1]);
+            fclose($arrPipes[2]);
+            proc_close($objProcess);
+
+            
         }
 
-        throw new Svn2RssException("Error loading svn-log content, exit code: ".$intExitCode);
+
+        if($strSvnLogLines == 0) {
+            return $strSvnLogLines;
+        }
+
+        throw new Svn2RssException("Error loading svn-log content, errors: ".$strErrors);
     }
 
     /**
