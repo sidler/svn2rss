@@ -59,7 +59,7 @@ class Svn2Rss {
             $objChannel->addChild("title", "Error");
             $objChannel->addChild("description", "Error while loading feed");
             $objChannel->addChild("link", "n.a.");
-            $objChannel->addChild("pubDate", strftime("%a, %d %b %Y %H:%m:00 GMT", time()));
+            $objChannel->addChild("pubDate", strftime("%a, %d %b %Y %H:%M:%S GMT", time()));
 
             $objRssItemNode = $objChannel->addChild("item");
             $objRssItemNode->addChild("title","Something bad happened: \n".$objException->getMessage()."");

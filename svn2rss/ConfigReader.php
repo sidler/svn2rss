@@ -63,7 +63,7 @@ class ConfigReader {
         $this->strConfigSetName = $strConfigSet;
         foreach($this->objSimpleXml->configSets->configSet as $objOneConfigSet) {
             $arrAttributes = $objOneConfigSet->attributes();
-            if($arrAttributes->id->__toString() == $strConfigSet) {
+            if($arrAttributes->id."" == $strConfigSet) {
                 $this->objCurrentConfigSetXml = $objOneConfigSet;
             }
         }
@@ -74,46 +74,46 @@ class ConfigReader {
 
 
     public function getStrSvnBinaryPath() {
-        return $this->objSimpleXml->globalConfig->svnBinaryPath->__toString();
+        return $this->objSimpleXml->globalConfig->svnBinaryPath."";
     }
 
     public function getBitCachingEnabled() {
-        if($this->objSimpleXml->globalConfig->cachingEnabled->__toString() == "true")
+        if($this->objSimpleXml->globalConfig->cachingEnabled."" == "true")
             return true;
         else
             return false;
     }
 
     public function getStrDefaultConfigSet() {
-        return $this->objSimpleXml->globalConfig->defaultConfigSet->__toString();
+        return $this->objSimpleXml->globalConfig->defaultConfigSet."";
     }
 
     public function getStrSvnUrl() {
-        return $this->objCurrentConfigSetXml->svnUrl->__toString();
+        return $this->objCurrentConfigSetXml->svnUrl."";
     }
 
     public function getStrSvnUsername() {
-        return $this->objCurrentConfigSetXml->svnUsername->__toString();
+        return $this->objCurrentConfigSetXml->svnUsername."";
     }
 
     public function getStrSvnPassword() {
-        return $this->objCurrentConfigSetXml->svnPassword->__toString();
+        return $this->objCurrentConfigSetXml->svnPassword."";
     }
 
     public function getIntLogAmount() {
-        return (int)$this->objCurrentConfigSetXml->logAmount->__toString();
+        return (int)$this->objCurrentConfigSetXml->logAmount."";
     }
 
     public function getIntRefreshInterval() {
-        return (int)$this->objCurrentConfigSetXml->refreshInterval->__toString();
+        return (int)$this->objCurrentConfigSetXml->refreshInterval."";
     }
 
     public function getStrFeedTitle() {
-        return $this->objCurrentConfigSetXml->feedTitle->__toString();
+        return $this->objCurrentConfigSetXml->feedTitle."";
     }
 
     public function getStrFeedDescription() {
-        return $this->objCurrentConfigSetXml->feedDescription->__toString();
+        return $this->objCurrentConfigSetXml->feedDescription."";
     }
 
     public function getStrConfigSetName() {

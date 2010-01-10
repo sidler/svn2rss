@@ -68,15 +68,15 @@ class Log2RssConverter {
             $objRssItemNode = $objChannel->addChild("item");
 
             //prepare log-message
-            $strDescription = $objOneLogEntry->msg->__toString();
+            $strDescription = $objOneLogEntry->msg."";
             $strDescription = html_entity_decode($strDescription, ENT_COMPAT, "UTF-8");
             //but: encode &, <, >
             $strDescription = str_replace(array("&", "<", ">"), array("&amp;", "&lt;", "&gt;"), $strDescription);
 
             //title, description, logdate
-            $objRssItemNode->addChild("title", $arrObjAttributes->revision->__toString()." by ".$objOneLogEntry->author->__toString());
+            $objRssItemNode->addChild("title", $arrObjAttributes->revision." by ".$objOneLogEntry->author);
             $objDescNode = $objRssItemNode->addChild("description", $strDescription);
-            $objRssItemNode->addChild("pubDate", $objOneLogEntry->date->__toString());
+            $objRssItemNode->addChild("pubDate", $objOneLogEntry->date."");
             
         }
 

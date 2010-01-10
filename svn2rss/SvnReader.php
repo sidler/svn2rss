@@ -96,9 +96,9 @@ class SvnReader {
     private function getContentFromCache() {
         //search for a cached file
         $strFilename = $this->generateCachename();
-        if(is_file(SVN2RSS_PROJECT_ROOT."/".SVN2RSS_SYSTEM_FOLDER."/".$strFilename)) {
+        if(is_file(SVN2RSS_PROJECT_ROOT."/".SVN2RSS_SYSTEM_FOLDER."/".SVN2RSS_CACHE_FOLDER."/".$strFilename)) {
             //file exists, read content
-            $strFileContent = file_get_contents(SVN2RSS_PROJECT_ROOT."/".SVN2RSS_SYSTEM_FOLDER."/".$strFilename);
+            $strFileContent = file_get_contents(SVN2RSS_PROJECT_ROOT."/".SVN2RSS_SYSTEM_FOLDER."/".SVN2RSS_CACHE_FOLDER."/".$strFilename);
 
             //validate cache-lease-time, so get first row
             $strFirstRow = trim( substr($strFileContent, 0, strpos($strFileContent, "\r\n")) );
@@ -128,7 +128,7 @@ class SvnReader {
         $strHeaderRow = "svn2rss | ".SVN2RSS_VERSION." | ".strftime("%a, %d %b %Y %H:%M:%S GMT", time())." | ".time()."\r\n";
         $strContent = $strHeaderRow.$strContent;
 
-        if(is_writable(SVN2RSS_PROJECT_ROOT."/".SVN2RSS_SYSTEM_FOLDER) && file_put_contents(SVN2RSS_PROJECT_ROOT."/".SVN2RSS_SYSTEM_FOLDER."/".$this->generateCachename(), $strContent) !== false )
+        if(is_writable(SVN2RSS_PROJECT_ROOT."/".SVN2RSS_SYSTEM_FOLDER."/".SVN2RSS_CACHE_FOLDER."/") && file_put_contents(SVN2RSS_PROJECT_ROOT."/".SVN2RSS_SYSTEM_FOLDER."/".SVN2RSS_CACHE_FOLDER."/".$this->generateCachename(), $strContent) !== false )
             return true;
 
 
