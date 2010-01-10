@@ -37,6 +37,7 @@
 //set up base-constants
 define("SVN2RSS_PROJECT_ROOT",  dirname(__FILE__));
 define("SVN2RSS_SYSTEM_FOLDER", "svn2rss");
+define("SVN2RSS_CACHE_FOLDER",  "cache");
 define("SVN2RSS_CONFIG_FILE",   "svn2rss.xml");
 define("SVN2RSS_VERSION",       "1.0");
 
