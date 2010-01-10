@@ -94,7 +94,25 @@ class SvnReader {
      * @return string cachecontent, false if cache is invalid or no cached log was found
      */
     private function getContentFromCache() {
-        //TODO
+        //search for a cached file
+        $strFilename = $this->generateCachename();
+        if(is_file(SVN2RSS_PROJECT_ROOT."/".SVN2RSS_SYSTEM_FOLDER."/".$strFilename)) {
+            //file exists, read content
+            $strFileContent = file_get_contents(SVN2RSS_PROJECT_ROOT."/".SVN2RSS_SYSTEM_FOLDER."/".$strFilename);
+
+            //validate cache-lease-time, so get first row
+            $strFirstRow = trim( substr($strFileContent, 0, strpos($strFileContent, "\r\n")) );
+
+            //format: projectname | version | generation time hr | gentime in secs
+            $arrFirstRowParts = explode("|", $strFirstRow);
+            $intTimestamp = trim($arrFirstRowParts[3]);
+
+            //validate the timestamp against the refreh interval
+            if($intTimestamp >= (time() - $this->objConfig->getIntRefreshInterval()) ) {
+                $strLogContent = substr($strFileContent, strpos($strFileContent, "\r\n")+2 );
+                return $strLogContent;
+            }
+        }
         return false;
     }
 
@@ -105,13 +123,21 @@ class SvnReader {
      * @return boolean
      */
     private function setContentToCache($strContent) {
-        //TODO
+
+        //update the log-content
+        $strHeaderRow = "svn2rss | ".SVN2RSS_VERSION." | ".strftime("%a, %d %b %Y %H:%M:%S GMT", time())." | ".time()."\r\n";
+        $strContent = $strHeaderRow.$strContent;
+
+        if(file_put_contents(SVN2RSS_PROJECT_ROOT."/".SVN2RSS_SYSTEM_FOLDER."/".$this->generateCachename(), $strContent) !== false )
+            return true;
+
+
         return false;
     }
 
 
     private function generateCachename() {
-        return md5($this->objConfig->getStrSvnUrl().$this->objConfig->getStrConfigSetName());
+        return md5($this->objConfig->getStrSvnUrl().$this->objConfig->getStrConfigSetName()).".log";
     }
 
 }

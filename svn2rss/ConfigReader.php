@@ -28,7 +28,6 @@
  * @author Stefan Idler, sidler@mulchprod.de
  */
 class ConfigReader {
-    private $strConfigFile = "svn2rss.xml";
 
     /**
      *
@@ -47,18 +46,18 @@ class ConfigReader {
     public function __construct($strConfigSet = "") {
 
         libxml_use_internal_errors();
-        $this->objSimpleXml = simplexml_load_file(SVN2RSS_PROJECT_ROOT."/".$this->strConfigFile);
+        $this->objSimpleXml = simplexml_load_file(SVN2RSS_PROJECT_ROOT."/".SVN2RSS_CONFIG_FILE);
         $arrParseErrors = libxml_get_errors();
         libxml_clear_errors();
 
         if(count($arrParseErrors) > 0)
-            throw new Svn2RssException("Error parsing xml-config-file ".$this->strConfigFile.".\nErrors:\n".implode("\n", $arrParseErrors));
+            throw new Svn2RssException("Error parsing xml-config-file ".SVN2RSS_CONFIG_FILE.".\nErrors:\n".implode("\n", $arrParseErrors));
 
         if($strConfigSet == "")
             $strConfigSet = $this->getStrDefaultConfigSet();
 
         if($strConfigSet == "")
-            throw new Svn2RssException("No default config-set defined in ".$this->strConfigFile);
+            throw new Svn2RssException("No default config-set defined in ".SVN2RSS_CONFIG_FILE);
 
         //load the config-set requested
         $this->strConfigSetName = $strConfigSet;

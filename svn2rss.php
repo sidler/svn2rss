@@ -36,6 +36,9 @@
 
 //set up base-constants
 define("SVN2RSS_PROJECT_ROOT",  dirname(__FILE__));
+define("SVN2RSS_SYSTEM_FOLDER", "svn2rss");
+define("SVN2RSS_CONFIG_FILE",   "svn2rss.xml");
+define("SVN2RSS_VERSION",       "1.0");
 
 
 /**
@@ -46,7 +49,7 @@ define("SVN2RSS_PROJECT_ROOT",  dirname(__FILE__));
  */
 function __autoload($strClassName) {
     
-    if(require(SVN2RSS_PROJECT_ROOT."/svn2rss/".$strClassName.".php"))
+    if(require(SVN2RSS_PROJECT_ROOT."/".SVN2RSS_SYSTEM_FOLDER."/".$strClassName.".php"))
         return;
 }
 
@@ -60,8 +63,10 @@ $objSvn2Rss->processSvn2RssRequest($strFeedParam);
 header("Content-Type: text/xml; charset=utf-8");
 
 //$strReturnCode = "<?xml version=\"1.0\" encoding=\"UTF-8\">\n";
+//$strReturnCode =  htmlentities($objSvn2Rss->getStrOutput());
+
 $strReturnCode = $objSvn2Rss->getStrOutput();
-//echo htmlentities($strReturnCode));
+
 echo $strReturnCode;
 
 

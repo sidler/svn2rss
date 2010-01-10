@@ -30,13 +30,14 @@
     </globalConfig>
 
 
-    <!-- You can define a list of config sets, each containing a singe svn2rss configuration.
+    <!-- You can define a list of config sets, each containing a single svn2rss configuration.
          To switch between the single sets, use the url-parameter "feed=name" when querying the
          svn2rss.php -->
     <configSets>
 
         <!-- Each config-set contains the properties for a single svn2rss configuration.
-             Use the attribute id in order to identify the single config lateron. -->
+             Use the attribute id in order to identify the single config lateron, e.g. as
+             an URL-param -->
         <configSet id="kajona">
 
             <!-- This is the URL to the svn-repository to be scanned -->
@@ -61,7 +62,9 @@
 
             <!-- The description of the generated feed -->
             <feedDescription>Browse the SVN-history of Kajona, a free content management framework (http://www.kajona.de)</feedDescription>
+            
         </configSet>
+
 
     </configSets>
 
