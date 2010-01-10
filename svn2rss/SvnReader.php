@@ -128,7 +128,7 @@ class SvnReader {
         $strHeaderRow = "svn2rss | ".SVN2RSS_VERSION." | ".strftime("%a, %d %b %Y %H:%M:%S GMT", time())." | ".time()."\r\n";
         $strContent = $strHeaderRow.$strContent;
 
-        if(file_put_contents(SVN2RSS_PROJECT_ROOT."/".SVN2RSS_SYSTEM_FOLDER."/".$this->generateCachename(), $strContent) !== false )
+        if(is_writable(SVN2RSS_PROJECT_ROOT."/".SVN2RSS_SYSTEM_FOLDER) && file_put_contents(SVN2RSS_PROJECT_ROOT."/".SVN2RSS_SYSTEM_FOLDER."/".$this->generateCachename(), $strContent) !== false )
             return true;
 
 
