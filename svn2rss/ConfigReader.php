@@ -116,9 +116,14 @@ class ConfigReader {
         return $this->objCurrentConfigSetXml->feedDescription."";
     }
 
+    public function getBitFeedWithChangedFiles() {
+        return $this->objCurrentConfigSetXml->feedWithChangedFiles."" == "true";
+    }
+
     public function getStrConfigSetName() {
         return $this->strConfigSetName;
     }
+
 
     
     

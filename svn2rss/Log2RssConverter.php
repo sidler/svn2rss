@@ -69,7 +69,18 @@ class Log2RssConverter {
 
             //prepare log-message
             $strDescription = $objOneLogEntry->msg."";
-            $strDescription = html_entity_decode($strDescription, ENT_COMPAT, "UTF-8");
+
+            //include changed files?
+            if($this->objConfig->getBitFeedWithChangedFiles()) {
+                $strDescription .= "\n\n";
+
+                foreach($objOneLogEntry->paths->path as $objOnePath) {
+                    $objPathAttributes = $objOnePath->attributes();
+                    $strDescription .= $objPathAttributes->action." ".$objOnePath."\n";
+                }
+            }
+
+            $strDescription = html_entity_decode(nl2br($strDescription), ENT_COMPAT, "UTF-8");
             //but: encode &, <, >
             $strDescription = str_replace(array("&", "<", ">"), array("&amp;", "&lt;", "&gt;"), $strDescription);
 
