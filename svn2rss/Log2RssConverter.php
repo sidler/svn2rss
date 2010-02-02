@@ -50,7 +50,7 @@ class Log2RssConverter {
         $objChannel->addChild("title", $this->objConfig->getStrFeedTitle());
         $objChannel->addChild("description", $this->objConfig->getStrFeedDescription());
         $objChannel->addChild("link", $this->objConfig->getStrSvnUrl());
-        $objChannel->addChild("pubDate", strftime("%a, %d %b %Y %H:%M:%S GMT", time()));
+        $objChannel->addChild("pubDate", date("r", time()));
 
 
         //build a xml-tree out of the passed svn-log-content
@@ -87,7 +87,8 @@ class Log2RssConverter {
             //title, description, logdate
             $objRssItemNode->addChild("title", $arrObjAttributes->revision." by ".$objOneLogEntry->author);
             $objDescNode = $objRssItemNode->addChild("description", $strDescription);
-            $objRssItemNode->addChild("pubDate", $objOneLogEntry->date."");
+            //$objRssItemNode->addChild("pubDate", $objOneLogEntry->date."");
+            $objRssItemNode->addChild("pubDate", date("r", strtotime($objOneLogEntry->date))."");
             
         }
 
