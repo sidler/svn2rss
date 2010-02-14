@@ -89,6 +89,11 @@ class Log2RssConverter {
             $objDescNode = $objRssItemNode->addChild("description", $strDescription);
             //$objRssItemNode->addChild("pubDate", $objOneLogEntry->date."");
             $objRssItemNode->addChild("pubDate", date("r", strtotime($objOneLogEntry->date))."");
+
+            $objGuidNode = $objRssItemNode->addChild("guid", $arrObjAttributes->revision."");
+            $objGuidNode->addAttribute("isPermaLink", "false");
+
+            $objRssItemNode->addChild("link", $this->objConfig->getStrSvnUrl());
             
         }
 
