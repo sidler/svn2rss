@@ -36,6 +36,7 @@
 
 //set up base-constants
 define("SVN2RSS_PROJECT_ROOT",  dirname(__FILE__));
+define("SVN2RSS_WEB_ROOT",     (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on" ? "https://" : "http://").$_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']);
 define("SVN2RSS_SYSTEM_FOLDER", "svn2rss");
 define("SVN2RSS_CACHE_FOLDER",  "cache");
 define("SVN2RSS_CONFIG_FILE",   "svn2rss.xml");
@@ -54,22 +55,27 @@ function __autoload($strClassName) {
         return;
 }
 
+//different processing of xml-requests and web-requests
+if(isset($_GET["showCommit"]) && $_GET["showCommit"] == "true") {
+    echo "Still to be implemented"; 
+}
+else {
 
-//start rss2svn and invoke the request-processing
-$strFeedParam = isset($_GET["feed"]) ? $_GET["feed"] : "";
-$objSvn2Rss = new Svn2Rss();
-$objSvn2Rss->processSvn2RssRequest($strFeedParam);
+    //start rss2svn and invoke the request-processing
+    $strFeedParam = isset($_GET["feed"]) ? $_GET["feed"] : "";
+    $objSvn2Rss = new Svn2Rss();
+    $objSvn2Rss->processSvn2RssRequest($strFeedParam);
 
-//set up response to browser
-header("Content-Type: text/xml; charset=utf-8");
+    //set up response to browser
+    header("Content-Type: text/xml; charset=utf-8");
 
-//$strReturnCode = "<?xml version=\"1.0\" encoding=\"UTF-8\">\n";
-//$strReturnCode =  htmlentities($objSvn2Rss->getStrOutput());
+    //$strReturnCode = "<?xml version=\"1.0\" encoding=\"UTF-8\">\n";
+    //$strReturnCode =  htmlentities($objSvn2Rss->getStrOutput());
 
-$strReturnCode = $objSvn2Rss->getStrOutput();
+    $strReturnCode = $objSvn2Rss->getStrOutput();
 
-echo $strReturnCode;
-
+    echo $strReturnCode;
+}
 
 
 

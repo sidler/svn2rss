@@ -81,8 +81,11 @@ class Log2RssConverter {
             }
 
             $strDescription = html_entity_decode(nl2br($strDescription), ENT_COMPAT, "UTF-8");
+            $strDetailsLink = SVN2RSS_WEB_ROOT."?showCommit=true&feed=".$this->objConfig->getStrConfigSetName()."&revision=".$arrObjAttributes->revision;
             //but: encode &, <, >
-            $strDescription = str_replace(array("&", "<", ">"), array("&amp;", "&lt;", "&gt;"), $strDescription);
+            $strDescription = $this->xmlSafeString($strDescription);
+            $strDetailsLink = $this->xmlSafeString($strDetailsLink);
+
 
             //title, description, logdate
             $objRssItemNode->addChild("title", $arrObjAttributes->revision." by ".$objOneLogEntry->author);
@@ -93,7 +96,7 @@ class Log2RssConverter {
             $objGuidNode = $objRssItemNode->addChild("guid", $arrObjAttributes->revision."");
             $objGuidNode->addAttribute("isPermaLink", "false");
 
-            $objRssItemNode->addChild("link", $this->objConfig->getStrSvnUrl());
+            $objRssItemNode->addChild("link", $strDetailsLink);
             
         }
 
@@ -101,6 +104,15 @@ class Log2RssConverter {
 
     }
 
+    /**
+     * Replaces special chars to make strings xml-safe
+     * 
+     * @param string $strString
+     * @return string
+     */
+    private function xmlSafeString($strString) {
+        return str_replace(array("&", "<", ">"), array("&amp;", "&lt;", "&gt;"), $strString);
+    }
 
     
 }
