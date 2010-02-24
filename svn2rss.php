@@ -40,7 +40,7 @@ define("SVN2RSS_WEB_ROOT",     (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] ==
 define("SVN2RSS_SYSTEM_FOLDER", "svn2rss");
 define("SVN2RSS_CACHE_FOLDER",  "cache");
 define("SVN2RSS_CONFIG_FILE",   "svn2rss.xml");
-define("SVN2RSS_VERSION",       "1.0");
+define("SVN2RSS_VERSION",       "1.2");
 
 
 /**
@@ -57,7 +57,18 @@ function __autoload($strClassName) {
 
 //different processing of xml-requests and web-requests
 if(isset($_GET["showCommit"]) && $_GET["showCommit"] == "true") {
-    echo "Still to be implemented"; 
+    $strFeedParam = isset($_GET["feed"]) ? $_GET["feed"] : "";
+    $strRevisionParam = isset($_GET["revision"]) ? $_GET["revision"] : "";
+
+    $objSvn2Rss = new Svn2Rss();
+    $objSvn2Rss->processSvn2WebRequest($strFeedParam, $strRevisionParam);
+
+    //set up response to browser
+    //header("Content-Type: text/xml; charset=utf-8");
+
+    $strReturnCode = $objSvn2Rss->getStrOutput();
+
+    echo $strReturnCode;
 }
 else {
 

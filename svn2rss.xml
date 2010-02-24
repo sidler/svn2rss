@@ -12,7 +12,7 @@
     This is the global config-file for svn2rss.
     Use this file to set up your configuration.
 -->
-<config version="1.1">
+<config version="1.2">
 
     <globalConfig>
         <!-- The path to the svn-binary. On most systems, svn is registered to the PATH variable,
@@ -65,6 +65,10 @@
 
             <!-- If set to true, a list of changed files will be included in the feed, otherwise not -->
             <feedWithChangedFiles>false</feedWithChangedFiles>
+
+            <!-- Each rss-entry links to a web-based representation of the single commit. The template
+                 below is used to render the message (and can be customized) -->
+            <htmlViewTemplate>svn2rss.xhtml</htmlViewTemplate>
             
         </configSet>
 
@@ -85,6 +89,8 @@
             <feedDescription>Browse the SVN-history of Kajona, a free content management framework (http://www.kajona.de)</feedDescription>
 
             <feedWithChangedFiles>true</feedWithChangedFiles>
+
+            <htmlViewTemplate>svn2rss.xhtml</htmlViewTemplate>
 
         </configSet>
 

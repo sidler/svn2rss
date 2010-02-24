@@ -23,7 +23,7 @@
 
 
 <!ELEMENT configSets (configSet)+>
-<!ELEMENT configSet (svnUrl, svnUsername, svnPassword, logAmount, refreshInterval, feedTitle, feedDescription, feedWithChangedFiles)>
+<!ELEMENT configSet (svnUrl, svnUsername, svnPassword, logAmount, refreshInterval, feedTitle, feedDescription, feedWithChangedFiles, htmlViewTemplate)>
 <!ATTLIST configSet
     id ID #REQUIRED
 >
@@ -36,3 +36,4 @@
 <!ELEMENT feedTitle (#PCDATA)>
 <!ELEMENT feedDescription (#PCDATA)>
 <!ELEMENT feedWithChangedFiles (#PCDATA)>
+<!ELEMENT htmlViewTemplate (#PCDATA)>

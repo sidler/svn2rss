@@ -120,6 +120,10 @@ class ConfigReader {
         return $this->objCurrentConfigSetXml->feedWithChangedFiles."" == "true";
     }
 
+    public function getStrHtmlViewTemplate() {
+        return $this->objCurrentConfigSetXml->htmlViewTemplate."";
+    }
+
     public function getStrConfigSetName() {
         return $this->strConfigSetName;
     }
