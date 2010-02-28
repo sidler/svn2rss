@@ -56,15 +56,12 @@ function __autoload($strClassName) {
 }
 
 //different processing of xml-requests and web-requests
-if(isset($_GET["showCommit"]) && $_GET["showCommit"] == "true") {
+if(isset($_GET["revision"]) && $_GET["revision"] != "") {
     $strFeedParam = isset($_GET["feed"]) ? $_GET["feed"] : "";
     $strRevisionParam = isset($_GET["revision"]) ? $_GET["revision"] : "";
 
     $objSvn2Rss = new Svn2Rss();
     $objSvn2Rss->processSvn2WebRequest($strFeedParam, $strRevisionParam);
-
-    //set up response to browser
-    //header("Content-Type: text/xml; charset=utf-8");
 
     $strReturnCode = $objSvn2Rss->getStrOutput();
 
@@ -79,9 +76,6 @@ else {
 
     //set up response to browser
     header("Content-Type: text/xml; charset=utf-8");
-
-    //$strReturnCode = "<?xml version=\"1.0\" encoding=\"UTF-8\">\n";
-    //$strReturnCode =  htmlentities($objSvn2Rss->getStrOutput());
 
     $strReturnCode = $objSvn2Rss->getStrOutput();
 

@@ -81,7 +81,7 @@ class Log2RssConverter {
             }
 
             $strDescription = html_entity_decode(nl2br($strDescription), ENT_COMPAT, "UTF-8");
-            $strDetailsLink = SVN2RSS_WEB_ROOT."?showCommit=true&feed=".$this->objConfig->getStrConfigSetName()."&revision=".$arrObjAttributes->revision;
+            $strDetailsLink = SVN2RSS_WEB_ROOT."?feed=".$this->objConfig->getStrConfigSetName()."&revision=".$arrObjAttributes->revision;
             //but: encode &, <, >
             $strDescription = $this->xmlSafeString($strDescription);
             $strDetailsLink = $this->xmlSafeString($strDetailsLink);

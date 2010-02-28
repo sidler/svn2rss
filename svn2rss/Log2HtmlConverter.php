@@ -53,7 +53,7 @@ class Log2HtmlConverter {
         $strChangedFiles = "";
         foreach($objOneLogEntry->paths->path as $objOnePath) {
             $objPathAttributes = $objOnePath->attributes();
-            $strChangedFiles .= $objPathAttributes->action." ".$objOnePath."\n";
+            $strChangedFiles .= "<li>".$objPathAttributes->action." ".$objOnePath."</li>";
         }
 
 
