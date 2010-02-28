@@ -89,7 +89,7 @@ class Svn2Rss {
 
         }
         catch (Svn2RssException $objException) {
-            $this->strOutput = "<html><head><title>Error></title><body><h1>An error occured</h1><p>".$objException->getMessage()."</p></body></html>";
+            $this->strOutput = "<html><head><title>Error</title><body><h1>An error occured</h1><p>".$objException->getMessage()."</p></body></html>";
         }
 
         
