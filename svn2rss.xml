@@ -12,7 +12,7 @@
     This is the global config-file for svn2rss.
     Use this file to set up your configuration.
 -->
-<config version="1.2">
+<config version="1.3">
 
     <globalConfig>
         <!-- The path to the svn-binary. On most systems, svn is registered to the PATH variable,
@@ -72,6 +72,8 @@
             
         </configSet>
 
+
+
         <configSet id="kajonaFull">
 
             <svnUrl>https://svn.kajona.de/svn/kajona/kajona/module_head/trunk</svnUrl>
@@ -87,6 +89,30 @@
             <feedTitle>Kajona SVN History</feedTitle>
 
             <feedDescription>Browse the SVN-history of Kajona, a free content management framework (http://www.kajona.de)</feedDescription>
+
+            <feedWithChangedFiles>true</feedWithChangedFiles>
+
+            <htmlViewTemplate>svn2rss.xhtml</htmlViewTemplate>
+
+        </configSet>
+
+        
+
+        <configSet id="svn2rss">
+
+            <svnUrl>https://svn2rss.svn.sourceforge.net/svnroot/svn2rss</svnUrl>
+
+            <svnUsername></svnUsername>
+
+            <svnPassword></svnPassword>
+
+            <logAmount>25</logAmount>
+
+            <refreshInterval>500</refreshInterval>
+
+            <feedTitle>The svn2rss project feed</feedTitle>
+
+            <feedDescription>All activities of the project bundled within a single feed</feedDescription>
 
             <feedWithChangedFiles>true</feedWithChangedFiles>
 
