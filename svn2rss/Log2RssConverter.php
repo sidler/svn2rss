@@ -80,10 +80,10 @@ class Log2RssConverter {
                 }
             }
 
-            $strDescription = html_entity_decode(nl2br($strDescription), ENT_COMPAT, "UTF-8");
+            $strDescription = html_entity_decode($strDescription, ENT_COMPAT, "UTF-8");
             $strDetailsLink = SVN2RSS_WEB_ROOT."?feed=".$this->objConfig->getStrConfigSetName()."&revision=".$arrObjAttributes->revision;
             //but: encode &, <, >
-            $strDescription = $this->xmlSafeString($strDescription);
+            $strDescription = nl2br($this->xmlSafeString($strDescription));
             $strDetailsLink = $this->xmlSafeString($strDetailsLink);
 
 
@@ -111,7 +111,9 @@ class Log2RssConverter {
      * @return string
      */
     private function xmlSafeString($strString) {
-        return str_replace(array("&", "<", ">"), array("&amp;", "&lt;", "&gt;"), $strString);
+        $strString = str_replace(array("<", ">"), array("&lt;", "&gt;"), $strString);
+        $strString = str_replace(array("&" ), array("&amp;"), $strString);
+        return $strString;
     }
 
     

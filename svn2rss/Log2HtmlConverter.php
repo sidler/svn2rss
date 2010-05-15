@@ -61,7 +61,7 @@ class Log2HtmlConverter {
         $arrTemplate["revision"] = $arrObjAttributes->revision."";
         $arrTemplate["author"] = $objOneLogEntry->author."";
         $arrTemplate["date"] = date("r", strtotime($objOneLogEntry->date));
-        $arrTemplate["description"] = nl2br($objOneLogEntry->msg."");
+        $arrTemplate["description"] = nl2br(htmlentities($objOneLogEntry->msg.""));
         $arrTemplate["changedfiles"] = nl2br($strChangedFiles);
 
         //read the template
