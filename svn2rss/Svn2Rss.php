@@ -71,7 +71,7 @@ class Svn2Rss {
 
     /**
      * Starts the processing of a web-request, so loading a single revision-entry
-     * and rendering it as a (x)html page / response.
+     * and rendering it as an (x)html page / response.
      * main-like behaviour.
      */
     public function processSvn2WebRequest($strFeedParam = "", $strRevisionParam = "") {
@@ -81,7 +81,7 @@ class Svn2Rss {
 
             //create the svn-reader and pass control
             $objSvnReader = new SvnReader($objConfig);
-            $strSvnLog = $objSvnReader->getSvnLogContent();
+            $strSvnLog = $objSvnReader->getSvnLogContent($strRevisionParam);
 
             //pass the entry to the html-processor
             $objRssConverter = new Log2HtmlConverter($objConfig);

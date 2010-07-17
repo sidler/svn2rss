@@ -38,7 +38,14 @@ class SvnReader {
         $this->objConfig = $objConfig;
     }
 
-    public function getSvnLogContent() {
+    /**
+     * Gets the complete commit-log.
+     * Tries to load it from cache, otherwise an external request is being made.
+     *
+     * @param string make sure this revision is included
+     * @return string, xmlbased log-content
+     */
+    public function getSvnLogContent($strRevisionToCheck = false) {
        $strLogContent = false;
        
        //anything to load via the cache?
@@ -51,6 +58,19 @@ class SvnReader {
            $strLogContent = $this->loadLoghistoryViaSvn();
        }
 
+       //if a single revision was passed, make sure it is included
+       if($strRevisionToCheck !== false) {
+           if(!$this->isSingleRevisionInLogContent($strLogContent, $strRevisionToCheck)) {
+               $strSingleRevision = $this->loadLoghistoryViaSvn($strRevisionToCheck);
+
+               //validate the single revision
+               $strSingleRevision = $this->extractSingleRevision($strSingleRevision);
+
+               $strLogContent = $this->mergeSingleRevisionToLog($strLogContent, $strSingleRevision);
+           }
+           
+       }
+
        //write back to the cache
        if($this->objConfig->getBitCachingEnabled()) {
            $this->setContentToCache($strLogContent);
@@ -58,9 +78,14 @@ class SvnReader {
 
        return $strLogContent;
     }
-
     
-    private function loadLoghistoryViaSvn() {
+
+    /**
+     * Loads the svn-log-content via a system-call
+     * @param string $strSingleRevision use this param if you want so make sure a given id is included
+     * @return string
+     */
+    private function loadLoghistoryViaSvn($strSingleRevision = false) {
         $strSvnLogLines = "";
         $strErrors = "";
 
@@ -69,7 +94,10 @@ class SvnReader {
         $arrCommand[] = escapeshellcmd($this->objConfig->getStrSvnBinaryPath());
         $arrCommand[] = "log -v --xml --no-auth-cache";
         $arrCommand[] = escapeshellarg($this->objConfig->getStrSvnUrl());
-        $arrCommand[] = " -l ".escapeshellarg($this->objConfig->getIntLogAmount());
+        if($strSingleRevision !== false && $strSingleRevision != "")
+            $arrCommand[] = " -r ".escapeshellarg(intval($strSingleRevision));
+        else
+            $arrCommand[] = " -l ".escapeshellarg($this->objConfig->getIntLogAmount());
         
         if($this->objConfig->getStrSvnUsername() != "" )
             $arrCommand[] = "--username ".escapeshellarg($this->objConfig->getStrSvnUsername());
@@ -167,6 +195,81 @@ class SvnReader {
 
     private function generateCachename() {
         return md5($this->objConfig->getStrSvnUrl().$this->objConfig->getStrConfigSetName()).".log";
+    }
+
+
+    /**
+     * Searches the passed log for a given revision.
+     * If found true is returned, otherwise false
+     * 
+     * @param string $strContent
+     * @param string $strRevision
+     * @return bool
+     */
+    private function isSingleRevisionInLogContent($strContent, $strRevision) {
+        //build a xml-tree out of the passed svn-log-content
+        libxml_use_internal_errors();
+        $objSimpleXmlElement = simplexml_load_string($strContent);
+        $arrParseErrors = libxml_get_errors();
+        libxml_clear_errors();
+
+        if(count($arrParseErrors) > 0)
+            throw new Svn2RssException("Error parsing xml-based svn log content.\nErrors:\n".implode("\n", $arrParseErrors));
+
+
+        foreach($objSimpleXmlElement->logentry as $objOneLogEntry) {
+
+
+            $arrObjAttributes = $objOneLogEntry->attributes();
+
+            if($arrObjAttributes->revision."" == $strRevision)
+                return true;
+
+        }
+
+
+        //nothing was found, return false
+        return false;
+
+    }
+
+
+    /**
+     * Exracts the revision out of the whole xml-document
+     *
+     * @param string $strLog
+     * @return string
+     */
+    private function extractSingleRevision($strLog) {
+        //build a xml-tree out of the passed svn-log-content
+        libxml_use_internal_errors();
+        $objSimpleXmlElement = simplexml_load_string($strLog);
+        $arrParseErrors = libxml_get_errors();
+        libxml_clear_errors();
+
+        if(count($arrParseErrors) > 0)
+            throw new Svn2RssException("Error parsing xml-based svn log content.\nErrors:\n".implode("\n", $arrParseErrors));
+
+
+        if($objSimpleXmlElement->count() == 1)
+            return $objSimpleXmlElement->logentry->asXML();
+
+        
+
+        //nothing was found
+        return "";
+    }
+
+
+    /**
+     * Appends the passed log-entry to the full log-file
+     * @param string $strLog
+     * @param string $strRevision
+     * @return string 
+     */
+    private function mergeSingleRevisionToLog($strLog, $strRevision) {
+        $strLog = trim($strLog);
+        return substr($strLog, 0,  (strlen("</log>")*-1)).$strRevision."</log>";
     }
 
 }
