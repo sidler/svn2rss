@@ -12,7 +12,7 @@
     This is the global config-file for svn2rss.
     Use this file to set up your configuration.
 -->
-<config version="1.3">
+<config version="1.4">
 
     <globalConfig>
         <!-- The path to the svn-binary. On most systems, svn is registered to the PATH variable,

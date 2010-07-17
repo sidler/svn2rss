@@ -251,7 +251,7 @@ class SvnReader {
             throw new Svn2RssException("Error parsing xml-based svn log content.\nErrors:\n".implode("\n", $arrParseErrors));
 
 
-        if($objSimpleXmlElement->count() == 1)
+        if($objSimpleXmlElement->logentry != "")
             return $objSimpleXmlElement->logentry->asXML();
 
         

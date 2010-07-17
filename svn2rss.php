@@ -40,7 +40,7 @@ define("SVN2RSS_WEB_ROOT",     (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] ==
 define("SVN2RSS_SYSTEM_FOLDER", "svn2rss");
 define("SVN2RSS_CACHE_FOLDER",  "cache");
 define("SVN2RSS_CONFIG_FILE",   "svn2rss.xml");
-define("SVN2RSS_VERSION",       "1.2");
+define("SVN2RSS_VERSION",       "1.4");
 
 
 /**
