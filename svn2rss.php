@@ -43,6 +43,8 @@ define("SVN2RSS_CONFIG_FILE",   "svn2rss.xml");
 define("SVN2RSS_VERSION",       "1.4");
 
 
+@date_default_timezone_set(date_default_timezone_get());
+
 /**
  * Autoloader. Handles the loading of class-definitions not known to the compiler.
  * Called by PHP, so no need to call on your own
