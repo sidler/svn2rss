@@ -1,7 +1,6 @@
 php2rss
 =======
 
-
 Installation instructions:
 Copy the complete directory to your webspace.
 Make the folder /svn2rss/cache writable in order to have caching working properly.
