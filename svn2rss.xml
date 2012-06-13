@@ -96,29 +96,6 @@
 
         </configSet>
 
-        
-
-        <configSet id="svn2rss">
-
-            <svnUrl>https://svn2rss.svn.sourceforge.net/svnroot/svn2rss</svnUrl>
-
-            <svnUsername></svnUsername>
-
-            <svnPassword></svnPassword>
-
-            <logAmount>25</logAmount>
-
-            <refreshInterval>500</refreshInterval>
-
-            <feedTitle>The svn2rss project feed</feedTitle>
-
-            <feedDescription>All activities of the project bundled within a single feed</feedDescription>
-
-            <feedWithChangedFiles>true</feedWithChangedFiles>
-
-            <htmlViewTemplate>svn2rss.xhtml</htmlViewTemplate>
-
-        </configSet>
 
 
     </configSets>
