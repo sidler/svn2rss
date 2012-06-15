@@ -11,5 +11,5 @@ The values are described in the file svn2rss.xml.
 
 (c) by Stefan Idler, MulchProductions, sidler@mulchprod.de, http://www.mulchprod.de
 
-For updates and more information see https://github.com/sidler/php2rss or http://www.mulchprod.de/svn2rss.html
+For updates and more information see https://github.com/sidler/svn2rss or http://www.mulchprod.de/svn2rss.html
 
