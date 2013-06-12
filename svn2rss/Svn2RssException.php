@@ -35,4 +35,3 @@ class Svn2RssException extends Exception {
         parent::__construct($strError);
     }
 }
-?>

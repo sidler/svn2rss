@@ -39,7 +39,11 @@ class Log2RssConverter {
 
     /**
      * Generates a rss-node-structure from the passed log-node-structure
-     * @param string $objLogRootNode
+     *
+     * @param $strLogRootNode
+     *
+     * @throws Svn2RssException
+     * @internal param string $objLogRootNode
      * @return SimpleXMLElement
      */
     public function generateRssNodesFromLogContent($strLogRootNode) {
@@ -89,7 +93,7 @@ class Log2RssConverter {
 
             //title, description, logdate
             $objRssItemNode->addChild("title", $arrObjAttributes->revision." by ".$objOneLogEntry->author);
-            $objDescNode = $objRssItemNode->addChild("description", $strDescription);
+            $objRssItemNode->addChild("description", $strDescription);
             //$objRssItemNode->addChild("pubDate", $objOneLogEntry->date."");
             $objRssItemNode->addChild("pubDate", date("r", strtotime($objOneLogEntry->date))."");
 
@@ -118,4 +122,4 @@ class Log2RssConverter {
 
     
 }
-?>
+

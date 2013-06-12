@@ -40,8 +40,13 @@ class Log2HtmlConverter {
 
     /**
      * Generates a html-view of either the first or the specified svn-commit message.
-     * Uses the template to render the 
-     * @param string $objLogRootNode
+     * Uses the template to render the
+     *
+     * @param $strLogRootNode
+     * @param string $strRevisionNumber
+     *
+     * @throws Svn2RssException
+     * @internal param string $objLogRootNode
      * @return SimpleXMLElement
      */
     public function generateHtmlFromLogContent($strLogRootNode, $strRevisionNumber = "") {
@@ -79,9 +84,11 @@ class Log2HtmlConverter {
 
     /**
      * Tries to load a single commit-entry out of the svn-log loaded before
-     * 
+     *
      * @param SimpleXMLElement $strLogRootNode
      * @param string $strRevisionNumber
+     *
+     * @throws Svn2RssException
      * @return SimpleXMLElement
      */
     private function getLogNodeToProcess($strLogRootNode, $strRevisionNumber) {
@@ -112,4 +119,3 @@ class Log2HtmlConverter {
         throw new Svn2RssException("Specified Revision ".$strRevisionNumber." not available");
     }
 }
-?>

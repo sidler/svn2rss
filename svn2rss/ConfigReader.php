@@ -128,8 +128,5 @@ class ConfigReader {
         return $this->strConfigSetName;
     }
 
-
-    
     
 }
-?>

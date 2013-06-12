@@ -42,7 +42,9 @@ class SvnReader {
      * Gets the complete commit-log.
      * Tries to load it from cache, otherwise an external request is being made.
      *
-     * @param string make sure this revision is included
+     * @param bool $strRevisionToCheck
+     *
+     * @internal param $string make sure this revision is included
      * @return string, xmlbased log-content
      */
     public function getSvnLogContent($strRevisionToCheck = false) {
@@ -78,11 +80,14 @@ class SvnReader {
 
        return $strLogContent;
     }
-    
+
 
     /**
      * Loads the svn-log-content via a system-call
-     * @param string $strSingleRevision use this param if you want so make sure a given id is included
+     *
+     * @param bool|string $strSingleRevision use this param if you want so make sure a given id is included
+     *
+     * @throws Svn2RssException
      * @return string
      */
     private function loadLoghistoryViaSvn($strSingleRevision = false) {
@@ -201,9 +206,11 @@ class SvnReader {
     /**
      * Searches the passed log for a given revision.
      * If found true is returned, otherwise false
-     * 
+     *
      * @param string $strContent
      * @param string $strRevision
+     *
+     * @throws Svn2RssException
      * @return bool
      */
     private function isSingleRevisionInLogContent($strContent, $strRevision) {
@@ -238,6 +245,8 @@ class SvnReader {
      * Exracts the revision out of the whole xml-document
      *
      * @param string $strLog
+     *
+     * @throws Svn2RssException
      * @return string
      */
     private function extractSingleRevision($strLog) {
@@ -273,4 +282,4 @@ class SvnReader {
     }
 
 }
-?>
+
