@@ -92,9 +92,6 @@ class Svn2Rss {
             $this->strOutput = "<html><head><title>Error</title><body><h1>An error occured</h1><p>".$objException->getMessage()."</p></body></html>";
         }
 
-        
-
-
     }
 
 
@@ -106,7 +103,6 @@ class Svn2Rss {
     public function getStrOutput() {
         return $this->strOutput;
     }
-
 
 }
 
