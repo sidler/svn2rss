@@ -138,8 +138,6 @@ class SvnReader {
             fclose($arrPipes[1]);
             fclose($arrPipes[2]);
             proc_close($objProcess);
-
-            
         }
 
 
